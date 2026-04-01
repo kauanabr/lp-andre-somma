@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andre Finguer · Gestor Patrimonial · Somma MFO</title>
+<meta name="description" content="Entenda como a antecipação estratégica evitou uma perda de R$ 4,6 milhões em uma holding familiar de SC. Relatório técnico exclusivo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --carbon: #1A1A1A;
+    --carbon-deep: #111111;
+    --carbon-surface: #242422;
+    --carbon-mid: #2E2E2C;
+    --gold: #DCB559;
+    --gold-dim: #B8942A;
+    --gold-faint: rgba(220,181,89,0.12);
+    --prussian: #163446;
+    --prussian-light: #1D3D50;
+    --slate: #4D6571;
+    --off-white: #F5F4F0;
+    --white: #FFFFFF;
+    --gray-200: #C8C6BE;
+    --gray-400: #888880;
+    --gray-600: #555550;
+    --border-gold: rgba(220,181,89,0.2);
+    --border-dark: rgba(255,255,255,0.07);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --max-w: 1100px;
+    --pad: clamp(20px, 5vw, 80px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--carbon-deep);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes lineGrow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+
+  section { padding: clamp(60px, 8vw, 100px) 0; }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(17,17,17,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border-dark);
+  }
+
+  .header-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-somma {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .logo-sep {
+    width: 0.5px;
+    height: 20px;
+    background: var(--border-dark);
+  }
+
+  .logo-andre {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .logo-title {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    display: block;
+    line-height: 1;
+    margin-top: 3px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--carbon-deep);
+    padding: clamp(80px, 10vw, 120px) 0 clamp(60px, 8vw, 90px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(22,52,70,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 15% 80%, rgba(220,181,89,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(220,181,89,0.4), transparent);
+    animation: fadeIn 1.5s ease 0.3s both;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0.5px solid var(--border-gold);
+    border-radius: 100px;
+    padding: 6px 16px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .hero-badge span {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.5vw, 66px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    max-width: 820px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    margin-top: 20px;
+    font-size: clamp(15px, 1.8vw, 18px);
+    font-weight: 300;
+    color: var(--gray-200);
+    max-width: 560px;
+    line-height: 1.65;
+    animation: fadeUp 0.8s ease 0.35s both;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s ease 0.45s both;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--gray-400);
+    margin-top: 4px;
+  }
+
+  .meta-sep {
+    width: 0.5px;
+    height: 40px;
+    background: var(--border-dark);
+    flex-shrink: 0;
+  }
+
+  /* ── VIDEO SECTION ── */
+  .video-section {
+    background: var(--carbon);
+    border-top: 0.5px solid var(--border-dark);
+    border-bottom: 0.5px solid var(--border-dark);
+  }
+
+  .video-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .video-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 0.5px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .video-headline {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--white);
+    max-width: 600px;
+    margin-bottom: 8px;
+  }
+
+  .video-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--gray-400);
+    margin-bottom: 36px;
+    max-width: 500px;
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 0.5px solid var(--border-dark);
+  }
+
+  .video-wrapper::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+  }
+
+  .video-wrapper iframe,
+  .video-placeholder {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  .video-placeholder {
+    background: var(--carbon-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    cursor: default;
+  }
+
+  .play-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(220,181,89,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-icon svg {
+    width: 22px; height: 22px;
+    fill: var(--gold);
+    margin-left: 4px;
+  }
+
+  .video-coming {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--gray-400);
+    text-align: center;
+  }
+
+  .video-coming strong {
+    display: block;
+    color: var(--gray-200);
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .video-author {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-line {
+    width: 24px; height: 0.5px;
+    background: var(--border-gold);
+  }
+
+  .author-info {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--gray-400);
+    letter-spacing: 0.04em;
+  }
+
+  .author-info strong {
+    color: var(--gray-200);
+    font-weight: 400;
+  }
+
+  /* ── PDF SECTION ── */
+  .pdf-section {
+    background: var(--prussian);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pdf-section::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(220,181,89,0.04));
+    pointer-events: none;
+  }
+
+  .pdf-card {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: clamp(28px, 4vw, 48px);
+    display: flex;
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pdf-icon {
+    width: 56px; height: 56px;
+    border-radius: 8px;
+    background: var(--gold-faint);
+    border: 0.5px solid var(--border-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pdf-icon svg {
+    width: 24px; height: 24px;
+    fill: var(--gold);
+  }
+
+  .pdf-content { flex: 1; min-width: 200px; }
+
+  .pdf-eyebrow {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .pdf-title {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .pdf-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold);
+    color: var(--carbon-deep);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .btn-gold:hover { background: #E8C56A; transform: translateY(-1px); }
+  .btn-gold:active { transform: translateY(0); }
+
+  .btn-gold svg { width: 14px; height: 14px; fill: var(--carbon-deep); }
+
+  /* ── SOMMA CREDENCIAIS ── */
+  .somma-cred-section {
+    background: var(--prussian);
+    padding: clamp(50px, 7vw, 80px) 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .somma-cred-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0.5px;
+    background: rgba(255,255,255,0.08);
+  }
+  .somma-cred-inner {
+    display: flex;
+    align-items: center;
+    gap: clamp(32px, 6vw, 80px);
+    flex-wrap: wrap;
+  }
+  .somma-cred-stat { flex-shrink: 0; }
+  .somma-cred-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(52px, 7vw, 90px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.92);
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+  .somma-cred-label-text {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.06em;
+  }
+  .somma-cred-divider {
+    width: 0.5px;
+    height: clamp(60px, 8vw, 90px);
+    background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
+  }
+  .somma-cred-phrase {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── NUMBERS SECTION ── */
+  .numbers-section {
+    background: var(--carbon-deep);
+  }
+
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-dark);
+    border: 0.5px solid var(--border-dark);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .number-card {
+    background: var(--carbon-surface);
+    padding: clamp(24px, 3vw, 40px) clamp(20px, 3vw, 36px);
+    text-align: center;
+  }
+
+  .number-val {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .number-label {
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--gray-400);
+    line-height: 1.5;
+  }
+
+  .number-label strong {
+    display: block;
+    color: var(--gray-200);
+    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  /* ── REFORM ALERT ── */
+  .reform-alert {
+    margin-top: 40px;
+    background: rgba(186,117,23,0.08);
+    border: 0.5px solid rgba(220,181,89,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 20px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .alert-icon {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .alert-icon svg { width: 100%; height: 100%; fill: var(--gold); }
+
+  .alert-text-wrap {}
+
+  .alert-title-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .alert-body {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray-200);
+    line-height: 1.6;
+  }
+
+  /* ── AUTHORITY SECTION ── */
+  .authority-section {
+    background: var(--carbon);
+    border-top: 0.5px solid var(--border-dark);
+  }
+
+  .authority-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+  }
+
+  .authority-eyebrow {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+
+  .authority-headline {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.5vw, 42px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .authority-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .authority-text {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--gray-200);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .authority-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .astat {}
+
+  .astat-val {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+
+  .astat-label {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gray-400);
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .authority-card {
+    background: var(--carbon-surface);
+    border: 0.5px solid var(--border-dark);
+    border-radius: 8px;
+    padding: clamp(24px, 3vw, 36px);
+    position: relative;
+  }
+
+  .authority-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 24px; right: 24px;
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .quote-mark {
+    font-family: var(--font-display);
+    font-size: 64px;
+    color: var(--border-gold);
+    line-height: 0.7;
+    margin-bottom: 16px;
+    display: block;
+    font-style: italic;
+  }
+
+  .quote-text {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gray-200);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .quote-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate);
+    border: 0.5px solid rgba(77,101,113,0.4);
+    border-radius: 100px;
+    padding: 4px 12px;
+  }
+
+  /* ── FORM SECTION ── */
+  .form-section {
+    background: var(--carbon-deep);
+    border-top: 0.5px solid var(--border-dark);
+  }
+
+  .form-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 48px;
+  }
+
+  .form-eyebrow {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .form-headline {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .form-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .form-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+
+  .form-card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--carbon-surface);
+    border: 0.5px solid var(--border-dark);
+    border-radius: 10px;
+    padding: clamp(28px, 4vw, 48px);
+    position: relative;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(220,181,89,0.35), transparent);
+  }
+
+  .form-row {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 13px 16px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.2s ease;
+    -webkit-appearance: none;
+  }
+
+  .form-input::placeholder { color: var(--gray-600); }
+  .form-input:focus { border-color: rgba(220,181,89,0.4); }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .radio-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255,255,255,0.2);
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .radio-option input[type="radio"]:checked {
+    border-color: var(--gold);
+    background: var(--gold-faint);
+  }
+
+  .radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .radio-option span {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--gray-200);
+  }
+
+  .form-divider {
+    height: 0.5px;
+    background: var(--border-dark);
+    margin: 24px 0;
+  }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--carbon-deep);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 17px 28px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn-submit:hover { background: #E8C56A; transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit svg { width: 14px; height: 14px; fill: var(--carbon-deep); }
+
+  .form-privacy {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--carbon);
+    border-top: 0.5px solid var(--border-dark);
+    padding: 40px 0;
+  }
+
+  .footer-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-brand {}
+
+  .footer-andre {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .footer-sub {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+  }
+
+  .footer-somma {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0.5px solid rgba(77,101,113,0.4);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .footer-legal {
+    width: 100%;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--border-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-note {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gray-600);
+    line-height: 1.5;
+    max-width: 640px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .footer-links a {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--gray-600);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gray-400); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .authority-inner { grid-template-columns: 1fr; }
+    .numbers-grid { grid-template-columns: 1fr; }
+    .pdf-card { flex-direction: column; }
+    .hero-meta { gap: 16px; }
+    .meta-sep { display: none; }
+    .footer-inner { justify-content: center; text-align: center; }
+    .footer-legal { justify-content: center; text-align: center; }
+    .footer-links { justify-content: center; }
+    .somma-cred-divider { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .authority-stats { gap: 20px; }
+    .form-card { padding: 24px 20px; }
+    .somma-cred-num { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-somma">
+      <img src="logo-somma.png" alt="Somma Multi-Family Office" style="height:32px;width:auto;display:block;">
+    </div>
+    <div style="text-align:right;">
+      <span class="logo-andre">Andre Finguer</span>
+      <span class="logo-title">Gestor Patrimonial</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span>Inteligência Patrimonial · Somma MFO</span>
+    </div>
+
+    <h1>Do Inventário à Eficiência:<br><em>O Caso Real</em> de uma<br>Estrutura Familiar em SC</h1>
+
+    <p class="hero-sub">Entenda como a antecipação estratégica evitou uma perda de R$ 4,6 milhões e garantiu a continuidade do legado. Assista ao diagnóstico do Estrategista Sênior Andre Finguer.</p>
+
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-num">R$ 18 Bi</span>
+        <span class="meta-label">sob gestão · Somma</span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <span class="meta-num">R$ 4,6 Mi</span>
+        <span class="meta-label">economia gerada no caso</span>
+      </div>
+      <div class="meta-sep"></div>
+      <div class="meta-item">
+        <span class="meta-num">8x</span>
+        <span class="meta-label">mais barato que o inventário</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="video-section reveal">
+  <div class="container">
+    <div class="video-label">Diagnóstico em vídeo</div>
+    <h2 class="video-headline">O Patriarca Silenciador:<br>um caso real de SC</h2>
+    <p class="video-sub">Andre detalha o cenário, os números reais e como a estrutura foi reorganizada em vida.</p>
+
+    <div class="video-wrapper">
+      <!--
+        INSTRUÇÃO: quando o vídeo do Andre estiver no YouTube,
+        substitua o bloco .video-placeholder pelo iframe abaixo:
+
+        <iframe
+          src="https://www.youtube.com/embed/SEU_VIDEO_ID?rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      -->
+      <div class="video-placeholder">
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-coming">
+          <strong>Andre Finguer · O Caso do Patrimônio Protegido</strong>
+          Vídeo em breve · 90 segundos
+        </div>
+      </div>
+    </div>
+
+    <div class="video-author">
+      <div class="author-line"></div>
+      <div class="author-info">
+        <strong>Andre Finguer</strong> · Estrategista Sênior · Somma Multi-Family Office
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PDF DOWNLOAD -->
+<section class="pdf-section reveal">
+  <div class="container">
+    <div class="pdf-card">
+      <div class="pdf-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4zm2 9h8v1H8v-1zm0 2h8v1H8v-1zm0 2h5v1H8v-1z"/></svg>
+      </div>
+      <div class="pdf-content">
+        <div class="pdf-eyebrow">Relatório Técnico</div>
+        <div class="pdf-title">Guia Comparativo: Inventário vs.<br>Sucessão Estratégica</div>
+        <div class="pdf-desc">Checklist de blindagem patrimonial para o cenário de 2026. Os números reais, as cláusulas de segurança e o impacto da Reforma Tributária em SC.</div>
+      </div>
+      <a href="relatorio-sucessao-patrimonial.pdf" target="_blank" class="btn-gold">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Acessar Relatório
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SOMMA CREDENCIAIS -->
+<section class="somma-cred-section">
+  <div class="container">
+    <div class="somma-cred-inner">
+      <div class="somma-cred-stat">
+        <span class="somma-cred-num" data-target="18" data-prefix="R$&nbsp;" data-suffix=" Bi">R$&nbsp;0 Bi</span>
+        <span class="somma-cred-label-text">sob gestão · Somma Multi-Family Office</span>
+      </div>
+      <div class="somma-cred-divider"></div>
+      <div class="somma-cred-phrase">
+        Transforme suas oportunidades<br>em decisões seguras.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NÚMEROS -->
+<section class="numbers-section reveal">
+  <div class="container">
+    <div class="numbers-grid">
+      <div class="number-card">
+        <span class="number-val counter-val" data-target="5250000" data-prefix="R$&nbsp;" data-suffix=" Mi" data-divisor="1000000" data-decimals="2">R$&nbsp;0 Mi</span>
+        <div class="number-label">
+          <strong>Custo médio do inventário</strong>
+          sem planejamento em uma holding de R$ 50 mi
+        </div>
+      </div>
+      <div class="number-card">
+        <span class="number-val">2 a 5 anos</span>
+        <div class="number-label">
+          <strong>Bloqueio patrimonial típico</strong>
+          a empresa trava durante todo o processo judicial
+        </div>
+      </div>
+      <div class="number-card">
+        <span class="number-val counter-val" data-target="600" data-prefix="R$&nbsp;" data-suffix=" K">R$&nbsp;0 K</span>
+        <div class="number-label">
+          <strong>Custo do planejamento em vida</strong>
+          8 vezes mais barato que o inventário
+        </div>
+      </div>
+    </div>
+
+    <div class="reform-alert reveal">
+      <div class="alert-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      </div>
+      <div class="alert-text-wrap">
+        <div class="alert-title-text">Reforma Tributária 2026 — a janela está se fechando</div>
+        <div class="alert-body">Santa Catarina já pratica alíquota de 8% no teto vigente. Com a Reforma de 2026, alíquotas progressivas podem chegar a 16% sobre patrimônios maiores. Quem estrutura antes preserva as alíquotas atuais. Quem espera paga a conta da procrastinação.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTORIDADE -->
+<section class="authority-section reveal">
+  <div class="container">
+    <div class="authority-inner">
+      <div>
+        <div class="authority-eyebrow">Por que a Somma</div>
+        <h2 class="authority-headline">A sofisticação técnica de<br><em>R$ 18 Bilhões</em> a serviço<br>do seu legado</h2>
+        <p class="authority-text">Gerir um patrimônio de grande porte exige mais do que um contador ou um advogado isolado. Exige uma visão integrada. Andre e a equipe sênior da Somma traduzem a inteligência aplicada nas maiores estruturas familiares do país para a realidade privada da sua empresa.</p>
+        <div class="authority-stats">
+          <div class="astat">
+            <span class="astat-val">R$ 18 Bi</span>
+            <span class="astat-label">sob gestão</span>
+          </div>
+          <div class="astat">
+            <span class="astat-val">MFO</span>
+            <span class="astat-label">Multi-Family Office</span>
+          </div>
+          <div class="astat">
+            <span class="astat-val">SC</span>
+            <span class="astat-label">foco regional</span>
+          </div>
+        </div>
+      </div>
+      <div class="authority-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">O risco não está apenas no imposto. Está na paralisia decisória da sua empresa durante anos de inventário. Planejamento patrimonial não é documento — é governança em vida.</p>
+        <span class="quote-tag">Andre Finguer · Somma MFO</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULÁRIO -->
+<section class="form-section" id="formulario">
+  <div class="container">
+    <div class="form-header reveal">
+      <div class="form-eyebrow">Alinhamento Estratégico</div>
+      <h2 class="form-headline">Cada família tem uma<br><em>digital patrimonial</em> única</h2>
+      <p class="form-sub">Preencha abaixo para que Andre possa fazer uma leitura preliminar da sua estrutura antes da conversa.</p>
+    </div>
+
+    <div class="form-card reveal">
+      <form action="https://formspree.io/f/mkopbrqp" method="POST">
+
+        <div class="form-row">
+          <label class="form-label" for="nome">Nome completo</label>
+          <input class="form-input" type="text" id="nome" name="nome" placeholder="Seu nome" required>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="whatsapp">WhatsApp corporativo</label>
+          <input class="form-input" type="tel" id="whatsapp" name="whatsapp" placeholder="(47) 9 0000-0000" required>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="empresa">Empresa / Holding</label>
+          <input class="form-input" type="text" id="empresa" name="empresa" placeholder="Nome da empresa ou holding">
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="form-row">
+          <label class="form-label">Porte aproximado do patrimônio sob gestão</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="patrimonio" value="ate-10mi">
+              <span>Até R$ 10 Milhões</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="patrimonio" value="10-50mi">
+              <span>Entre R$ 10 Mi e R$ 50 Mi</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="patrimonio" value="acima-50mi">
+              <span>Acima de R$ 50 Milhões</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Qual vertente de proteção é prioridade hoje</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="prioridade" value="fiscal">
+              <span>Eficiência Fiscal · Redução de ITCMD para 2026</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="prioridade" value="governanca">
+              <span>Governança e Blindagem · Proteção contra riscos de terceiros</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="prioridade" value="sucessao">
+              <span>Liquidez e Sucessão · Organização da transição para herdeiros</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">A estrutura atual já passou por auditoria recente</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="auditoria" value="sim">
+              <span>Sim</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="auditoria" value="nao">
+              <span>Não</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <button type="submit" class="btn-submit">
+          <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          Iniciar Alinhamento Estratégico
+        </button>
+
+        <p class="form-privacy">Seus dados são tratados com total confidencialidade.<br>Conforme a LGPD, usamos apenas para contato técnico.</p>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-andre">Andre Finguer</span>
+      <span class="footer-sub">Gestor Patrimonial · Jaraguá do Sul, SC</span>
+    </div>
+    <img src="logo-somma.png" alt="Somma Multi-Family Office" style="height:24px;width:auto;display:block;opacity:0.85;">
+    <div class="footer-legal">
+      <p class="footer-note">Este material tem caráter informativo e educacional. Não constitui oferta de serviço ou consultoria regulada. Dados do estudo de caso foram anonimizados com base em atendimentos reais realizados pela Somma.</p>
+      <div class="footer-links">
+        <a href="privacidade.html">Privacidade</a>
+        <a href="mailto:contato@andrefinguer.com">Contato</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Reveal on scroll ── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Animated counter ── */
+  function animateCounter(el) {
+    const target   = parseFloat(el.dataset.target);
+    const prefix   = el.dataset.prefix  || '';
+    const suffix   = el.dataset.suffix  || '';
+    const divisor  = parseFloat(el.dataset.divisor)  || 1;
+    const decimals = parseInt(el.dataset.decimals)   || 0;
+    const duration = 1800;
+    const start    = performance.now();
+
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function tick(now) {
+      const elapsed  = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased    = easeOutCubic(progress);
+      const current  = (target / divisor) * eased;
+      const display  = decimals > 0
+        ? current.toFixed(decimals).replace('.', ',')
+        : Math.round(current).toLocaleString('pt-BR');
+      el.innerHTML = prefix + display + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* Somma credenciais — observar seção */
+  const credObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.somma-cred-num[data-target]').forEach(el => {
+          if (!el.dataset.counted) {
+            el.dataset.counted = '1';
+            animateCounter(el);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const credSection = document.querySelector('.somma-cred-section');
+  if (credSection) credObs.observe(credSection);
+
+  /* Numbers section — observar seção */
+  const numObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.counter-val[data-target]').forEach(el => {
+          if (!el.dataset.counted) {
+            el.dataset.counted = '1';
+            animateCounter(el);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const numSection = document.querySelector('.numbers-section');
+  if (numSection) numObs.observe(numSection);
+</script>
+
+</body>
+</html>
