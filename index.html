@@ -1385,5 +1385,45 @@
   }
 </script>
 
-</body>
+<script>
+(async () => {
+  const SUPA_URL = 'https://vbgfezprutxpfcdphnyc.supabase.co';
+  const SUPA_KEY = 'sb_publishable_dEFSn7J5IT2D9oHD6fdF4A_A9xOExon';
+  const H = {
+    'apikey': SUPA_KEY,
+    'Authorization': 'Bearer ' + SUPA_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=minimal'
+  };
+  const lid = new URLSearchParams(window.location.search).get('lid');
+  if (!lid) return;
+
+  // Define a ação conforme a página
+  const pagina = window.location.pathname;
+  let acao, pontos;
+  if (pagina.includes('quiz'))     { acao = 'acessou_quiz';   pontos = 20; }
+  else if (pagina.includes('obrigado')) { acao = 'acessou_obrigado'; pontos = 30; }
+  else                              { acao = 'acessou_lp';    pontos = 20; }
+
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/eventos`, {
+      method: 'POST',
+      headers: H,
+      body: JSON.stringify({ lead_id: lid, acao, pontos })
+    });
+    const evs = await fetch(
+      `${SUPA_URL}/rest/v1/eventos?lead_id=eq.${lid}&select=pontos`,
+      { headers: H }
+    ).then(r => r.json());
+    if (Array.isArray(evs)) {
+      const total = evs.reduce((a,e) => a+(e.pontos||0), 0);
+      await fetch(`${SUPA_URL}/rest/v1/leads?id=eq.${lid}`, {
+        method: 'PATCH',
+        headers: H,
+        body: JSON.stringify({ score: total })
+      });
+    }
+  } catch(e) { console.warn('tracking', e); }
+})();
+</script></body>
 </html>
